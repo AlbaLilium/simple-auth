@@ -11,8 +11,12 @@ auth_router = APIRouter()
 async def login(user_in: UserLogin, db_session: DbSession):
     user = await get_user_by_email(db_session=db_session, email=str(user_in.email))
     if not user:
-        raise HTTPException(status_code=400, detail="User with this email exists")
-    return UserResponse(email=user.email)
+        raise HTTPException(status_code=400, detail="User does not exist")
+
+    if user and user.verify_password(user_in.password):
+        return UserResponse(email=user.email)
+    else:
+        raise HTTPException(status_code=400, detail="Incorrect password")
 
 
 @auth_router.post("/")

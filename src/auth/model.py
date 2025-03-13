@@ -1,6 +1,6 @@
-from sqlalchemy import String
+from sqlalchemy import String, LargeBinary
 from sqlalchemy.orm import Mapped, mapped_column
-
+import bcrypt
 from src.database import Base
 
 
@@ -9,4 +9,10 @@ class UserBase(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(String, unique=True)
-    password: Mapped[str] = mapped_column(String(120))
+    password: Mapped[str] = mapped_column(LargeBinary, nullable=False)
+
+    def verify_password(self, password: str) -> bool:
+        """Verify if provided password matches stored hash"""
+        if not password or not self.password:
+            return False
+        return bcrypt.checkpw(password.encode("utf-8"), self.password)
