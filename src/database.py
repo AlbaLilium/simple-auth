@@ -23,12 +23,12 @@ Base = declarative_base()
 metadata = Base.metadata
 
 
-def get_db():
+async def get_db():
     db = AsyncSession()
     try:
         yield db
     finally:
-        db.close()
+        await db.close()
 
 
 DbSession = Annotated[AsyncSession, Depends(get_db)]
