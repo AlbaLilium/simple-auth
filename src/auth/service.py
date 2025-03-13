@@ -7,7 +7,7 @@ from src.auth.schemas import UserCreate, UserLogin
 async def create_user(*, db_session, user: UserCreate):
     user = UserBase(**user.model_dump())
     db_session.add(user)
-    await db_session.flush()
+    await db_session.commit()
     return user
 
 
