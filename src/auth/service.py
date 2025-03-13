@@ -12,5 +12,7 @@ async def create_user(*, db_session, user: UserCreate):
 
 
 async def get_user_by_email(*, db_session, email: str):
-    query = select(UserBase).where(UserBase.email == email)
-    return await db_session.execute(query).scalars().one_or_none()
+    executed_query = await db_session.execute(
+        select(UserBase).where(UserBase.email == email)
+    )
+    return executed_query.scalar()
