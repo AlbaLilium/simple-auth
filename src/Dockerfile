@@ -6,5 +6,8 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 COPY .. .
 
+EXPOSE 8000
 
-CMD ["fastapi", "run", "app/main.py", "--port", "80"]
+RUN chmod +x /src/entrypoint.sh
+
+CMD ["/src/entrypoint.sh"]
