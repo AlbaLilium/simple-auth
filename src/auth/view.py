@@ -15,7 +15,7 @@ async def login(user_in: UserLogin, db_session: DbSession):
     return UserResponse(email=user.email)
 
 
-@auth_router.post("")
+@auth_router.post("/")
 async def registrate_user(user_in: UserCreate, db_session: DbSession):
     user = await get_user_by_email(db_session=db_session, email=str(user_in.email))
     if user:
