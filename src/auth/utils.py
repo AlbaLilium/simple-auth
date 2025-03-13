@@ -1,2 +1,2 @@
 def hash_password(password: str):
-    return hash(password)
+    return str(hash(password))
