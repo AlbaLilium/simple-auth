@@ -16,4 +16,6 @@ class UserBase(Base):
         """Verify if provided password matches stored hash"""
         if not password or not self.password:
             return False
-        return bcrypt.checkpw(password.encode("utf-8"), self.password)
+        return bcrypt.checkpw(
+            password.get_secret_value().encode("utf-8"), self.password
+        )

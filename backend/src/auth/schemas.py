@@ -1,10 +1,10 @@
-from pydantic import BaseModel, EmailStr, field_validator
+from pydantic import BaseModel, EmailStr, SecretStr, field_validator
 from src.auth.utils import hash_password
 
 
 class UserBase(BaseModel):
     email: EmailStr
-    password: str
+    password: SecretStr
 
     @field_validator("email")
     def email_required(cls, v):
@@ -14,7 +14,7 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    password: str
+    password: SecretStr
 
     @field_validator("password")
     def hash(cls, v):
@@ -24,7 +24,7 @@ class UserCreate(UserBase):
 
 class UserLogin(UserBase):
     email: EmailStr
-    password: str
+    password: SecretStr
 
     @field_validator("password")
     def password_required(cls, v):
