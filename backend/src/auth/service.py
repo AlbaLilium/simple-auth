@@ -1,7 +1,6 @@
 from sqlalchemy import select
-
 from src.auth.model import UserBase
-from src.auth.schemas import UserCreate, UserLogin
+from src.auth.schemas import UserCreate
 
 
 async def create_user(*, db_session, user: UserCreate):

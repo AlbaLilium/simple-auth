@@ -1,5 +1,4 @@
 from pydantic import BaseModel, EmailStr, field_validator
-
 from src.auth.utils import hash_password
 
 

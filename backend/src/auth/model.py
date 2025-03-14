@@ -1,6 +1,7 @@
-from sqlalchemy import String, LargeBinary
-from sqlalchemy.orm import Mapped, mapped_column
 import bcrypt
+from pydantic import SecretStr
+from sqlalchemy import LargeBinary, String
+from sqlalchemy.orm import Mapped, mapped_column
 from src.database import Base
 
 

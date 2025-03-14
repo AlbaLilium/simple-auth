@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException
-
 from src.auth.schemas import UserCreate, UserLogin, UserResponse
 from src.auth.service import create_user, get_user_by_email
 from src.database import DbSession

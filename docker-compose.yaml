@@ -1,7 +1,7 @@
 services:
   backend:
     build:
-      context: .
+      context: ./backend
       dockerfile: src/Dockerfile
     container_name: auth-api
     ports:
@@ -28,11 +28,3 @@ services:
       interval: 30s
       timeout: 30s
       retries: 3
-
-#  frontend:
-#    build:
-#      context: .
-#      dockerfile: src/Dockerfile
-#    container_name: auth-front
-#    ports:
-#      - "30:30"
