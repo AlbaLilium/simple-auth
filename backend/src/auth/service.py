@@ -1,12 +1,18 @@
+from fastapi import HTTPException
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from src.auth.model import UserBase
 from src.auth.schemas import UserCreate
 
 
 async def create_user(*, db_session, user: UserCreate):
     user = UserBase(**user.model_dump())
-    db_session.add(user)
-    await db_session.commit()
+    try:
+        db_session.add(user)
+        await db_session.commit()
+    except IntegrityError:
+        await db_session.rollback()
+        raise HTTPException(status_code=400, detail="This email is busy")
     return user
 
 
