@@ -11,6 +11,8 @@ services:
         condition: service_healthy
     env_file:
       - .env.dev
+    networks:
+      - auth-network
     develop:
       watch:
         - action: rebuild
@@ -21,6 +23,8 @@ services:
     container_name: postgres-auth-api
     ports:
       - "5432:5432"
+    networks:
+      - auth-network
     env_file:
       - .env.dev
     healthcheck:
@@ -28,3 +32,26 @@ services:
       interval: 30s
       timeout: 30s
       retries: 3
+    
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: auth-front
+    ports:
+      - "3000:80"  
+    depends_on:
+      - backend
+    networks:
+      - auth-network
+    develop:
+      watch:
+        - action: rebuild
+          path: .
+
+  
+
+networks:
+  auth-network:
+    driver: bridge
