@@ -19,7 +19,7 @@ class UserCreate(UserBase):
     @field_validator("password")
     def hash(cls, v):
         password = v
-        return hash_password(password)
+        return hash_password(password.get_secret_value())
 
 
 class UserLogin(UserBase):
