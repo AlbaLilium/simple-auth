@@ -1,0 +1,57 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: src/Dockerfile
+    container_name: auth-api
+    ports:
+      - "80:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env.dev
+    networks:
+      - auth-network
+    develop:
+      watch:
+        - action: rebuild
+          path: .
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres-auth-api
+    ports:
+      - "5432:5432"
+    networks:
+      - auth-network
+    env_file:
+      - .env.dev
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: auth-front
+    ports:
+      - "3000:80"  
+    depends_on:
+      - backend
+    networks:
+      - auth-network
+    develop:
+      watch:
+        - action: rebuild
+          path: .
+
+  
+
+networks:
+  auth-network:
+    driver: bridge
